@@ -9,9 +9,8 @@ const taskSchema=Schema({
         type:String,
         required:true
     },
-    color:{
+    taskdate:{
         type:String,
-        default:"red",
         required:true
     },
     important:{

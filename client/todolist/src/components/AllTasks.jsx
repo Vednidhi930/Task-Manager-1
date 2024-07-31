@@ -12,7 +12,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const AllTasks = () => {
+const AllTasks = ({}) => {
   const redirect = useNavigate();
   const [like, setLike] = useState(true);
   const [selectId, setSelectId] = useState("");
@@ -21,12 +21,12 @@ const AllTasks = () => {
     id:"",
     title:"",
     description:"",
-    color:""
+    date:""
   })
   const[taskdata,setTaskData]=useState({
     title:"",
     description:"",
-    color:""
+    date:""
   })
 
   const handleChange=(e)=>{
@@ -42,8 +42,8 @@ const AllTasks = () => {
         toast.error("Fill the title field")
       }else if(!taskdata.description){
         toast.error("Fill the description field")
-      }else if(!taskdata.color){
-        toast.error("Fill the color field")
+      }else if(!taskdata.date){
+        toast.error("Fill the date field")
       }else{
         const response=await axios.post("/user/task",taskdata)
         toast.success(response.data.message)
@@ -63,7 +63,6 @@ const AllTasks = () => {
   const getTaskData=async()=>{
     try {
       const response=await axios.get("/user/tasks")
-      console.log(response.data.user.tasks)
        setTask(response.data.user.tasks)
     } catch (error) {
        
@@ -95,8 +94,8 @@ const AllTasks = () => {
     setUpdateData({id:"",title:"",description:""})
   }
 
-  const handleUpdateTask=async(id,title,description,color)=>{
-    setUpdateData({id:id,title:title,description:description,color:color})
+  const handleUpdateTask=async(id,title,description,date)=>{
+    setUpdateData({id:id,title:title,description:description,date:date})
     AddOverlay()
   }
 
@@ -114,11 +113,11 @@ const AllTasks = () => {
         id:"",
         title:"",
         description:"",
-        color:"",
+        date:"",
         })
         setTaskData({ title:"",
           description:"",
-          color:""})
+          date:""})
       // getTaskData()
     } catch (error) {
       if(axios.isAxiosError(error)){
@@ -127,25 +126,30 @@ const AllTasks = () => {
     }
   }
 
-  const handleColor=(elementId)=>{
-   const taskLabel=document.getElementById(elementId)
-   console.log(taskLabel)
-   const taskName=document.getElementById("taskName")
-   const taskDescription=document.getElementById("taskDescription")
-   const taskColor=document.getElementById("taskColor")
-   const input1=document.getElementById("input1")
-   const input2=document.getElementById("input2")
-   const input3=document.getElementById("color")
-   if(elementId==="taskName"){
-    taskName.style.color="red"
-    input1.style.borderColor="red"
-   }else if(elementId==="color"){
-     taskColor.style.color=taskdata.color
-     input3.style.borderColor=taskdata.color
-   }else{
-     taskDescription.style.color="purple"
-    input2.style.borderColor="purple"
-   }
+  // const handleColor=(elementId)=>{
+  //  const taskLabel=document.getElementById(elementId)
+  //  console.log(taskLabel)
+  //  const taskName=document.getElementById("taskName")
+  //  const taskDescription=document.getElementById("taskDescription")
+  //  const taskColor=document.getElementById("taskColor")
+  //  const input1=document.getElementById("input1")
+  //  const input2=document.getElementById("input2")
+  //  const input3=document.getElementById("color")
+  //  if(elementId==="taskName"){
+  //   taskName.style.color="red"
+  //   input1.style.borderColor="red"
+  //  }else if(elementId==="color"){
+  //    taskColor.style.color=taskdata.color
+  //    input3.style.borderColor=taskdata.color
+  //  }else{
+  //    taskDescription.style.color="purple"
+  //   input2.style.borderColor="purple"
+  //  }
+  // }
+
+
+  const handleSearchBar=(e)=>{
+    console.log(e.target.value)
   }
 
 
@@ -171,6 +175,7 @@ const AllTasks = () => {
             type="text"
             placeholder="Search Your Task"
             className="w-[18rem] text-sm p-2 rounded-full"
+            onChange={handleSearchBar}
           />
         </motion.div>
 
@@ -185,7 +190,7 @@ const AllTasks = () => {
         </motion.div>
       </div>
 
-      <div className="w-full h-[100vh] flex flex-wrap">
+      <div className="w-full justify-center flex flex-wrap">
         {!task ? null:task.map((curr, id) => (
           <motion.div
             initial={{ y: -50, opacity: 0 }}
@@ -204,13 +209,13 @@ const AllTasks = () => {
               <h1  onClick={()=>handleCompleteTask(curr._id)}>{curr.completed ? "Complete" : "Incomplete"}</h1>
               <div className="w-[70%] flex justify-end items-center gap-2">
                 {/* <IoMdHeart onClick={()=>handleLike(id)} className={`text-2xl ${like ? "text-red-600":"text-white"}`}/>  */}
-                <PiNotePencilBold className="text-2xl" onClick={()=>handleUpdateTask(curr._id,curr.title,curr.description,curr.color)}/>
+                <PiNotePencilBold className="text-2xl" onClick={()=>handleUpdateTask(curr._id,curr.title,curr.description,curr.date)}/>
                 <MdOutlineDeleteOutline className="text-2xl" onClick={()=>handleDelete(curr._id)}/>
               </div>
             </div>  
 
             <div
-              className={`text-wrap w-full h-10 p-2 text-${curr.color}-500  text-[1.3rem] rounded-full  flex`}
+              className={`text-wrap w-full h-10 p-2 text-blue-500  text-[1.3rem] rounded-full  flex`}
             >
               <h1>{curr.title}</h1>
             </div>
@@ -218,6 +223,17 @@ const AllTasks = () => {
             <div className="w-[100%] capitalize p-2 text-lg flex font-sans text-wrap">
               <h1 className="">{curr.description}</h1>
             </div>
+
+            <h1 className="ms-2 text-center  text-red-500">Due date-{curr.taskdate}</h1>
+            
+            {/* <div className="w-16 overflow-hidden  h-16 rounded-full flex justify-center items-center">
+            <img
+                className="bg-contain"
+                src={profile}
+                alt="image"
+              />
+            </div> */}
+
           </motion.div>
         ))}
 
@@ -238,7 +254,7 @@ const AllTasks = () => {
 
     <div
         id="blackoverlay"
-        className="w-[77.7vw] overlay_hide  h-full rounded-lg"
+        className="w-[79.7vw] overlay_hide  h-[100%] rounded-lg"
         style={{ backgroundColor: "rgba(0,0,0,0.2)" }}
       >
         <form className=" w-full h-full flex justify-center items-center">
@@ -257,8 +273,9 @@ const AllTasks = () => {
             </div>
 
             <div className="flex flex-col gap-1">
-              <label className="text-sm" id="taskColor">Color</label>
-              <select onClick={()=>handleColor("color")} name="color" id="color" value={taskdata.color} onChange={handleChange} className="w-[30%] p-1 font-serif border text-sm h-7 outline-none border-black">
+              <label className="text-sm" htmlFor="date">Task Date</label>
+              <input type="date" id="date" className="border border-black p-1" onChange={handleChange} name="date" value={taskdata.date}/>
+              {/* <select onClick={()=>handleColor("color")} name="color" id="color" value={taskdata.color} onChange={handleChange} className="w-[30%] p-1 font-serif border text-sm h-7 outline-none border-black">
                 <option value="red">red</option>
                 <option value="black">black</option>
                 <option value="blue">blue</option>
@@ -266,7 +283,7 @@ const AllTasks = () => {
                 <option value="purple">purple</option>
                 <option value="yellow">yellow</option>
                 <option value="orange">orange</option>
-              </select>
+              </select> */}
               {/* <input type="text" name="task_name" className="border border-black h-8 rounded-md" /> */}
             </div>
           {!updateData.id ?  <button className="w-full h-10 bg-blue-600 text-white" onClick={handleClick}>Add Task</button> : <button className="w-full h-10 bg-blue-600 text-white" onClick={handleClickUpdate}>Update Task</button>}

@@ -1,4 +1,7 @@
 import express from "express"
+import upload from "./multer/multer.js";
+// import awsupload from "./multer/multers3.js"
+
 import 
 {
  loginUser,
@@ -9,11 +12,19 @@ import
  getTaskData , 
  deleteTask , 
  CompletedTaskUpdate ,  
- sendEmail ,
+//  sendEmail ,
  mainTask ,
  completedTask,
- incompletedTask
+ setUserProfile,
+ incompletedTask,
+ userProfile,
+ removeUserProfile,
+ EmailVerification,
+ changepassword,
+ otpverification,
+ awsuserProfile,
 } from "./controllers/controller.js";
+
 import { signUpschema } from "./SchemaValidation/SchemaValidation.js";
 import { validationMiddleware } from "./validationMiddleware/validationMiddleware.js";
 import {loginSchema} from "./SchemaValidation/loginValidationSchema.js"
@@ -37,9 +48,37 @@ app.route("/user/tasks").get(getTaskData)
 app.route("/user/delete/:id").delete(deleteTask)
 app.route("/user/update/:id").put(CompletedTaskUpdate)
 app.route("/user/mainTask/update/:id").put(mainTask)
-app.route("/user/email").get(sendEmail)
+// app.route("/user/email").get(sendEmail)
 app.route("/user/completedTasks").get(completedTask)
 app.route("/user/incompletedTasks").get(incompletedTask)
 
+app.route("/user/profile").post(upload.single("file"),userProfile)
+app.route("/user/aws").post(awsuserProfile)
+
+
+
+
+app.route("/user/otp").post(otpverification)
+
+
+
+
+
+
+
+
+
+app.route("/user/resetpassword").post(EmailVerification)
+app.route("/user/changepassword").post(changepassword)
+
+
+
+
+
+
+
+
+app.route("/user/profile").get(setUserProfile)
+app.route("/user/remove/profile").get(removeUserProfile)
 
 export {app}

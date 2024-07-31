@@ -9,8 +9,11 @@ import Home from "./components/Home";
 import AllTasks from "./components/AllTasks";
 import CompletedTask from "./components/CompletedTask";
 import IncompletedTask from "./components/IncompletedTask";
+import Forget from "./components/Forget"
 import axios from "axios";
-import Test from "./components/Test";
+import Reset from "./components/Reset";
+import Otp from "./components/Otp";
+
 
 function App() {
   // const[task,setTask]=useState()
@@ -52,7 +55,9 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/test" element={<Test/>}/>
+          <Route path="/forgetPassword" element={  <Forget/>}/>
+          <Route path="/otp" element={  <Otp/>}/>
+          <Route path="/resetPassword" element={  <Reset/>}/>
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Home />}>

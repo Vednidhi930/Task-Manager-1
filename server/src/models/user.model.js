@@ -24,6 +24,12 @@ const userSchema=new Schema(
         required:true, 
     },
 
+    profileImage:{
+      type:String,
+      required:true,
+      default:"https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg"
+    },
+
     tasks:[
         {
             type:Types.ObjectId,
@@ -34,9 +40,7 @@ const userSchema=new Schema(
     
 },
 
-{
-    timeStamps:true
-}
+{ timestamps: true } 
 
 )
 

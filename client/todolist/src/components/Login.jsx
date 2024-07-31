@@ -1,12 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {motion} from "framer-motion"
 import { IoEyeSharp } from "react-icons/io5";
 import { BsEyeSlashFill } from "react-icons/bs";
 
 const Login = () => {
+
 
      const redirect=useNavigate() 
      const[eye,setEye]=useState(true)
@@ -42,35 +43,35 @@ const Login = () => {
         }
     }
 
-    const sendEmail=async()=>{
-      try {
-        const response=await axios.get("/user/email")
-        setOtp(response.data.message)
-        toast.success(response.data.message)
-      } catch (error) {
-        if(axios.isAxiosError(error)){
-          toast.error(error.response.data.message)
-        }
-      }
-    }
+    // const sendEmail=async()=>{
+    //   try {
+    //     const response=await axios.get("/user/email")
+    //     setOtp(response.data.message)
+    //     toast.success(response.data.message)
+    //   } catch (error) {
+    //     if(axios.isAxiosError(error)){
+    //       toast.error(error.response.data.message)
+    //     }
+    //   }
+    // }
 
    
-    const handleCount=()=>{
+    // const handleCount=()=>{
 
-      count<=0 ? 0 : setCount(count-1)
+    //   count<=0 ? 0 : setCount(count-1)
      
-    }
+    // }
 
 
   // Use useEffect to set up the interval and clean it up
-  useEffect(() => {
-      const intervalId = setInterval(() => {
-          handleCount(); // Call handleCount every minute (every 1000ms * 60 = 60000ms)
-      }, 1000);
+  // useEffect(() => {
+  //     const intervalId = setInterval(() => {
+  //         handleCount(); // Call handleCount every minute (every 1000ms * 60 = 60000ms)
+  //     }, 1000);
 
-      // Clean up the interval to avoid memory leaks
-      return () => clearInterval(intervalId);
-  }, [handleCount]);
+  //     // Clean up the interval to avoid memory leaks
+  //     return () => clearInterval(intervalId);
+  // }, [handleCount]);
     
 
     
@@ -109,7 +110,7 @@ const Login = () => {
                   type="text"
                   autoComplete="email"
                   required
-                  className="block ps-1 outline-none w-full rounded-md py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block p-2 outline-none w-full rounded-md py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -122,10 +123,9 @@ const Login = () => {
                   Password
                 </label>
                 <div className="text-sm flex gap-1">
-               {!otp ? null : <h1>{count}</h1> }
-                  <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500" onClick={sendEmail}>
-                    send otp
-                  </a> 
+                  <Link to="/forgetPassword" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                    Forgot password
+                  </Link> 
                 </div>
               </div>
               <div className="mt-2 relative">
@@ -137,7 +137,7 @@ const Login = () => {
                   type={eye ? "password" : "text"}
                   autoComplete="current-password"
                   required
-                  className="block outline-none w-full ps-1  rounded-md  py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block outline-none w-full p-2  rounded-md  py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
                 {eye ? <IoEyeSharp onClick={()=>setEye(!eye)} className="absolute text-lg top-2 right-1"/> :<BsEyeSlashFill onClick={()=>setEye(!eye)} className="absolute text-lg top-2 right-1"/> }
               </div>
